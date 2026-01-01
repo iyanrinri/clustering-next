@@ -3,11 +3,11 @@
 import { useMemo } from 'react';
 import { ClusterResult } from '@/lib/types';
 import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
+import { getClusterLabel } from '@/lib/cluster-utils';
 
 interface ScatterPlotVisualizationProps {
   data: ClusterResult;
 }
-
 
 export default function ScatterPlotVisualization({ data }: ScatterPlotVisualizationProps) {
   // Use useMemo to ensure stable values
@@ -51,14 +51,18 @@ export default function ScatterPlotVisualization({ data }: ScatterPlotVisualizat
             cursor={{ strokeDasharray: '3 3' }}
             content={({ active, payload }) => {
               if (active && payload && payload.length) {
-                const data = payload[0].payload;
+                const payloadData = payload[0].payload;
+                // Find cluster info
+                const cluster = data.clusters.find(c => c.id === payloadData.cluster);
+                const clusterName = cluster ? getClusterLabel(cluster) : `Cluster ${payloadData.cluster}`;
+
                 return (
                   <div className="bg-white dark:bg-gray-800 p-3 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700">
-                    <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">
-                      Cluster {data.cluster}
+                    <p className="text-sm font-semibold text-gray-900 dark:text-gray-100 border-b border-gray-100 dark:border-gray-700 pb-1 mb-1">
+                      {clusterName}
                     </p>
-                    <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
-                      {data.text}
+                    <p className="text-xs text-gray-600 dark:text-gray-400">
+                      {payloadData.text}
                     </p>
                   </div>
                 );

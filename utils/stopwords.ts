@@ -11,7 +11,11 @@ export const indonesianStopwords = new Set([
   'enam', 'tujuh', 'delapan', 'sembilan', 'sepuluh', 'seratus', 'seribu',
   'pertama', 'kedua', 'ketiga', 'sangat', 'lebih', 'paling', 'agak', 'cukup',
   'terlalu', 'amat', 'begitu', 'demikian', 'sekali', 'nanti', 'kemudian',
-  'sekarang', 'sedang', 'masih', 'belum', 'pernah', 'sering', 'selalu', 'jarang'
+  'sekarang', 'sedang', 'masih', 'belum', 'pernah', 'sering', 'selalu', 'jarang',
+  // News/Journalism additions
+  'kepada', 'bila', 'seorang', 'tersebut', 'kata', 'saat', 'lalu', 'namun', 
+  'tetapi', 'sehingga', 'karena', 'yaitu', 'yakni', 'adapun', 'bagaimana', 'apa',
+  'siapa', 'dimana', 'kapan', 'mengapa', 'hal', 'ini', 'itu', 'di', 'pada', 'juga'
 ]);
 
 export const englishStopwords = new Set([

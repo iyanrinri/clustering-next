@@ -43,6 +43,7 @@ export interface ClusterResult {
   clusters: ClusterInfo[];
   totalTokens: number;
   processingTime: number;
+  algorithm: string;
 }
 
 export interface VectorData {

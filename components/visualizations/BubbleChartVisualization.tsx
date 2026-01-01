@@ -1,6 +1,7 @@
 'use client';
 
 import { ClusterResult } from '@/lib/types';
+import { getClusterLabel } from '@/lib/cluster-utils';
 
 interface BubbleChartVisualizationProps {
   data: ClusterResult;
@@ -17,7 +18,15 @@ export default function BubbleChartVisualization({ data }: BubbleChartVisualizat
       </h3>
       <div className="relative w-full h-[500px] flex items-center justify-center">
         <div className="flex flex-wrap gap-4 items-center justify-center">
-          {data.clusters.map(cluster => {
+          {/* Use a shuffled copy of clusters to randomize layout */}
+          {[...data.clusters]
+            .sort((a, b) => {
+               // Deterministic pseudo-random sort based on ID to ensure consistent but "random" order across renders
+               const hashA = (a.id * 9301 + 49297) % 233280;
+               const hashB = (b.id * 9301 + 49297) % 233280;
+               return hashA - hashB;
+            })
+            .map(cluster => {
             const size = 60 + (cluster.size / maxSize) * 140; // 60-200px
             
             return (
@@ -30,22 +39,28 @@ export default function BubbleChartVisualization({ data }: BubbleChartVisualizat
                 }}
               >
                 <div
-                  className="w-full h-full rounded-full flex items-center justify-center shadow-lg"
+                  className="w-full h-full rounded-full flex items-center justify-center shadow-lg transition-all duration-300 group-hover:shadow-xl group-hover:brightness-110"
                   style={{
                     backgroundColor: cluster.color,
-                    opacity: 0.7,
+                    opacity: 0.8,
                   }}
                 >
-                  <div className="text-center text-white">
-                    <div className="font-bold text-lg">C{cluster.id}</div>
-                    <div className="text-sm">{cluster.size}</div>
+                  <div className="text-center text-white px-2 overflow-hidden w-full">
+                    <div className="font-bold text-sm md:text-base leading-tight truncate">
+                      {getClusterLabel(cluster, { maxWords: 1 })}
+                    </div>
+                    {size > 100 && (
+                      <div className="text-[10px] md:text-xs opacity-90 mt-0.5 font-medium">
+                        {cluster.size} items
+                      </div>
+                    )}
                   </div>
                 </div>
                 
                 {/* Tooltip on hover */}
                 <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:block z-10">
                   <div className="bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 text-xs rounded-lg px-3 py-2 whitespace-nowrap shadow-xl">
-                    <div className="font-semibold mb-1">Cluster {cluster.id}</div>
+                    <div className="font-semibold mb-1">{getClusterLabel(cluster)}</div>
                     <div>{cluster.size} items</div>
                     {cluster.words.slice(0, 3).map((word, idx) => (
                       <div key={idx} className="text-gray-300 dark:text-gray-600">

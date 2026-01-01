@@ -1,6 +1,7 @@
 'use client';
 
 import { ClusterResult, ClusterInfo } from '@/lib/types';
+import { getClusterLabel } from '@/lib/cluster-utils';
 import { Badge } from '@/components/ui/badge';
 import { BarChart, Activity, FileText, Hash, Download, ChevronUp, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -74,11 +75,10 @@ export default function ClusterSummary({ data, isOpen = true, onToggle }: Cluste
               value={`${data.processingTime || 0}ms`}
               subtext="Optimized"
             />
-             <StatsCard 
-              icon={<BarChart className="w-4 h-4 text-amber-500" />}
-              label="Algorithm"
-              value="K-Means" // Could be passed in or derived
-            />
+             <StatsCard               icon={<BarChart className="w-4 h-4 text-amber-500" />}
+               label="Algorithm"
+               value={data.algorithm} 
+             />
           </div>
 
           {/* Cluster Details List */}
@@ -87,52 +87,57 @@ export default function ClusterSummary({ data, isOpen = true, onToggle }: Cluste
               Cluster Distribution
             </h4>
             <div className="grid gap-3">
-              {data.clusters.map((cluster: ClusterInfo) => (
-                <div 
-                  key={cluster.id} 
-                  className="group flex flex-col bg-card border rounded-lg overflow-hidden transition-all hover:border-primary/50 hover:shadow-sm"
-                >
-                  <div className="flex items-center gap-4 p-3 bg-muted/20">
-                    <div 
-                      className="w-3 h-3 rounded-full shrink-0 shadow-sm"
-                      style={{ backgroundColor: cluster.color || '#94a3b8' }}
-                    />
-                    <div className="flex-1 flex items-center justify-between min-w-0">
-                       <span className="font-medium text-sm truncate">Cluster {cluster.id}</span>
-                       <Badge variant="secondary" className="text-[10px] h-5 px-2 font-mono">
-                         {cluster.size} items
-                       </Badge>
+              {data.clusters.map((cluster: ClusterInfo) => {
+                const label = getClusterLabel(cluster);
+                const terms = cluster.words;
+                
+                return (
+                  <div 
+                    key={cluster.id} 
+                    className="group flex flex-col bg-card border rounded-lg overflow-hidden transition-all hover:border-primary/50 hover:shadow-sm"
+                  >
+                    <div className="flex items-center gap-4 p-3 bg-muted/20">
+                      <div 
+                        className="w-3 h-3 rounded-full shrink-0 shadow-sm"
+                        style={{ backgroundColor: cluster.color || '#94a3b8' }}
+                      />
+                      <div className="flex-1 flex items-center justify-between min-w-0">
+                         <span className="font-medium text-sm truncate" title={label}>{label}</span>
+                         <Badge variant="secondary" className="text-[10px] h-5 px-2 font-mono">
+                           {cluster.size} items
+                         </Badge>
+                      </div>
+                    </div>
+                    
+                    <div className="p-3 pt-2 text-xs text-muted-foreground border-t bg-background/50">
+                      <div className="flex flex-wrap gap-1.5">
+                        {terms.slice(0, 8).map((wordInfo, idx: number) => (
+                          <span 
+                            key={idx}
+                            className="inline-flex items-center px-1.5 py-0.5 rounded-md bg-muted/50 border border-transparent group-hover:border-border transition-colors text-[10px]"
+                          >
+                            {wordInfo.text}
+                          </span>
+                        ))}
+                        {(!terms || terms.length === 0) && (
+                          <span className="italic opacity-50">No key terms identified</span>
+                        )}
+                      </div>
+                    </div>
+                    
+                    {/* Distribution Bar */}
+                    <div className="h-1 w-full bg-muted/30">
+                       <div 
+                         className="h-full transition-all duration-1000" 
+                         style={{ 
+                           width: `${data.nodes.length > 0 ? (cluster.size / data.nodes.length) * 100 : 0}%`,
+                           backgroundColor: cluster.color 
+                         }} 
+                       />
                     </div>
                   </div>
-                  
-                  <div className="p-3 pt-2 text-xs text-muted-foreground border-t bg-background/50">
-                    <div className="flex flex-wrap gap-1.5">
-                      {cluster.topGenerativeTerms?.map((term: string, idx: number) => (
-                        <span 
-                          key={idx}
-                          className="inline-flex items-center px-1.5 py-0.5 rounded-md bg-muted/50 border border-transparent group-hover:border-border transition-colors text-[10px]"
-                        >
-                          {term}
-                        </span>
-                      ))}
-                      {(!cluster.topGenerativeTerms || cluster.topGenerativeTerms.length === 0) && (
-                        <span className="italic opacity-50">No key terms identified</span>
-                      )}
-                    </div>
-                  </div>
-                  
-                  {/* Distribution Bar */}
-                  <div className="h-1 w-full bg-muted/30">
-                     <div 
-                       className="h-full transition-all duration-1000" 
-                       style={{ 
-                         width: `${data.nodes.length > 0 ? (cluster.size / data.nodes.length) * 100 : 0}%`,
-                         backgroundColor: cluster.color 
-                       }} 
-                     />
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </div>

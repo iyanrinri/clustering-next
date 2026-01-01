@@ -71,6 +71,20 @@ export function vectorize(tokens: string[]): VectorData {
       }
     }
     
+    // L2 Normalize the vector to unit length
+    // This allows Euclidean distance to approximate Cosine similarity behavior
+    let magnitude = 0;
+    for (const val of vector) {
+        magnitude += val * val;
+    }
+    magnitude = Math.sqrt(magnitude);
+    
+    if (magnitude > 0) {
+        for (let i = 0; i < vector.length; i++) {
+            vector[i] = vector[i] / magnitude;
+        }
+    }
+    
     vectors.push(vector);
   }
   
