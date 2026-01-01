@@ -34,6 +34,7 @@ export interface ClusterInfo {
   size: number;
   words: ClusterWord[];
   color: string;
+  topGenerativeTerms?: string[];
 }
 
 export interface ClusterResult {

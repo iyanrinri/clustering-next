@@ -2,16 +2,18 @@
 
 import { ClusterResult, ClusterInfo } from '@/lib/types';
 import { Badge } from '@/components/ui/badge';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { BarChart, Activity, FileText, Hash, Download } from 'lucide-react';
+import { BarChart, Activity, FileText, Hash, Download, ChevronUp, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface ClusterSummaryProps {
   data: ClusterResult;
+  isOpen?: boolean;
+  onToggle?: () => void;
 }
 
-export default function ClusterSummary({ data }: ClusterSummaryProps) {
-  const downloadJson = () => {
+export default function ClusterSummary({ data, isOpen = true, onToggle }: ClusterSummaryProps) {
+  const downloadJson = (e: React.MouseEvent) => {
+    e.stopPropagation();
     const jsonString = JSON.stringify(data, null, 2);
     const blob = new Blob([jsonString], { type: 'application/json' });
     const href = URL.createObjectURL(blob);
@@ -24,11 +26,22 @@ export default function ClusterSummary({ data }: ClusterSummaryProps) {
   };
 
   return (
-    <div className="h-full flex flex-col">
-      <div className="px-6 py-3 border-b flex items-center justify-between bg-muted/5 sticky top-0 z-10">
+    <div className="flex flex-col">
+      <div 
+        className="px-6 h-12 border-b flex items-center justify-between bg-muted/5 sticky top-0 z-10 cursor-pointer hover:bg-muted/10 transition-colors"
+        onClick={onToggle}
+      >
         <div className="flex items-center gap-2">
+           <button className="p-1 hover:bg-muted rounded-md transition-colors mr-1">
+             {isOpen ? <ChevronDown className="w-4 h-4 text-muted-foreground" /> : <ChevronUp className="w-4 h-4 text-muted-foreground" />}
+           </button>
            <Activity className="w-4 h-4 text-primary" />
            <h3 className="font-semibold text-sm">Analysis Summary</h3>
+           {!isOpen && (
+             <span className="text-xs text-muted-foreground ml-2">
+               ({data.clusters.length} clusters, {data.nodes.length} items)
+             </span>
+           )}
         </div>
         <Button 
           variant="outline" 
@@ -41,8 +54,8 @@ export default function ClusterSummary({ data }: ClusterSummaryProps) {
         </Button>
       </div>
 
-      <ScrollArea className="flex-1">
-        <div className="p-6 grid gap-6">
+      {isOpen && (
+        <div className="p-6 grid gap-6 transition-all animate-slide-up">
           {/* Key Metrics Grid */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <StatsCard 
@@ -123,7 +136,7 @@ export default function ClusterSummary({ data }: ClusterSummaryProps) {
             </div>
           </div>
         </div>
-      </ScrollArea>
+      )}
     </div>
   );
 }

@@ -17,6 +17,7 @@ export default function Home() {
   const [clusterResult, setClusterResult] = useState<ClusterResult | null>(null);
   const [isClustering, setIsClustering] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isSummaryOpen, setIsSummaryOpen] = useState(true);
 
   const handleCluster = async () => {
     if (!text.trim()) {
@@ -136,22 +137,29 @@ export default function Home() {
         </header>
 
         {/* Visualization Canvas */}
-        <div className="flex-1 overflow-hidden relative p-6">
-           <div className="w-full h-full border rounded-xl bg-card shadow-sm flex flex-col overflow-hidden relative group">
-             
-             {/* Visualization Layer */}
-             <div className="flex-1 relative bg-gradient-to-br from-background via-muted/10 to-background">
-                <ClusterVisualization data={clusterResult} />
-             </div>
+         {/* Visualization and Summary Container - Scrollable Area */}
+         <div className="flex-1 overflow-y-auto p-6 scrollbar-thin">
+            <div className="flex flex-col gap-6 min-w-[800px] lg:min-w-0">
+              
+              {/* Visualization Card */}
+              <div className="h-[500px] lg:h-[600px] shrink-0 border rounded-xl bg-card shadow-sm overflow-hidden relative">
+                 <div className="absolute inset-0 bg-gradient-to-br from-background via-muted/10 to-background">
+                    <ClusterVisualization data={clusterResult} />
+                 </div>
+              </div>
 
-             {/* Bottom Summary Panel (Collapsible/Overlay) */}
-             {clusterResult && (
-               <div className="h-48 border-t bg-background/95 backdrop-blur-md overflow-hidden shrink-0 transition-all">
-                  <ClusterSummary data={clusterResult} />
-               </div>
-             )}
-           </div>
-        </div>
+              {/* Analysis Summary Card */}
+              {clusterResult && (
+                <div className="border rounded-xl bg-card shadow-sm overflow-hidden shrink-0">
+                   <ClusterSummary 
+                     data={clusterResult} 
+                     isOpen={isSummaryOpen}
+                     onToggle={() => setIsSummaryOpen(!isSummaryOpen)}
+                   />
+                </div>
+              )}
+            </div>
+         </div>
       </main>
     </div>
   );
