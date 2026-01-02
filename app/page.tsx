@@ -101,11 +101,6 @@ export default function Home() {
             </div>
           )}
         </div>
-        
-        <div className="p-4 border-t bg-muted/20 text-xs text-muted-foreground flex justify-between items-center">
-            <span>v1.0.0</span>
-            <a href="https://github.com" className="hover:text-foreground transition-colors">Documentation</a>
-        </div>
       </aside>
 
       {/* Main Workspace - Visualization */}
@@ -123,16 +118,6 @@ export default function Home() {
                  <span className="text-foreground font-medium">Analysis Results</span>
                </>
              )}
-           </div>
-           
-           <div className="flex items-center gap-3">
-             <Button variant="ghost" size="sm" className="h-8 text-xs">
-                Export Data
-             </Button>
-             <Button variant="outline" size="sm" className="h-8 text-xs gap-2">
-                <Github className="w-3.5 h-3.5" />
-                Find on GitHub
-             </Button>
            </div>
         </header>
 

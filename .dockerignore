@@ -1,0 +1,9 @@
+# Exclude git history
+.git
+
+# Exclude dependencies (we install production deps inside)
+node_modules
+
+# We want to INCLUDE .next, so do NOT list it here.
+# Just to be super safe, we explicitely whitelist it:
+!.next

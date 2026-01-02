@@ -1,0 +1,42 @@
+{
+  "[project]/components/visualizations/ForceGraphVisualization.tsx [app-client] (ecmascript, next/dynamic entry)": {
+    "id": "[project]/components/visualizations/ForceGraphVisualization.tsx [app-client] (ecmascript, next/dynamic entry)",
+    "files": [
+      "static/chunks/node_modules_react-force-graph-2d_dist_react-force-graph-2d_mjs_5025d05e._.js",
+      "static/chunks/components_visualizations_ForceGraphVisualization_tsx_4a739aea._.js",
+      "static/chunks/components_visualizations_ForceGraphVisualization_tsx_90bd446e._.js"
+    ]
+  },
+  "[project]/components/visualizations/ScatterPlotVisualization.tsx [app-client] (ecmascript, next/dynamic entry)": {
+    "id": "[project]/components/visualizations/ScatterPlotVisualization.tsx [app-client] (ecmascript, next/dynamic entry)",
+    "files": [
+      "static/chunks/node_modules_recharts_es6_5b5476e7._.js",
+      "static/chunks/node_modules_3bf05271._.js",
+      "static/chunks/components_visualizations_ScatterPlotVisualization_tsx_387faaca._.js",
+      "static/chunks/components_visualizations_ScatterPlotVisualization_tsx_90bd446e._.js"
+    ]
+  },
+  "[project]/components/visualizations/WordCloudVisualization.tsx [app-client] (ecmascript, next/dynamic entry)": {
+    "id": "[project]/components/visualizations/WordCloudVisualization.tsx [app-client] (ecmascript, next/dynamic entry)",
+    "files": [
+      "static/chunks/components_visualizations_WordCloudVisualization_tsx_769ec2c5._.js",
+      "static/chunks/components_visualizations_WordCloudVisualization_tsx_90bd446e._.js"
+    ]
+  },
+  "[project]/components/visualizations/BubbleChartVisualization.tsx [app-client] (ecmascript, next/dynamic entry)": {
+    "id": "[project]/components/visualizations/BubbleChartVisualization.tsx [app-client] (ecmascript, next/dynamic entry)",
+    "files": [
+      "static/chunks/components_visualizations_BubbleChartVisualization_tsx_90bbd887._.js",
+      "static/chunks/components_visualizations_BubbleChartVisualization_tsx_90bd446e._.js"
+    ]
+  },
+  "[project]/components/visualizations/TreemapVisualization.tsx [app-client] (ecmascript, next/dynamic entry)": {
+    "id": "[project]/components/visualizations/TreemapVisualization.tsx [app-client] (ecmascript, next/dynamic entry)",
+    "files": [
+      "static/chunks/node_modules_recharts_es6_a461b605._.js",
+      "static/chunks/node_modules_7a2c0048._.js",
+      "static/chunks/components_visualizations_TreemapVisualization_tsx_58d88090._.js",
+      "static/chunks/components_visualizations_TreemapVisualization_tsx_90bd446e._.js"
+    ]
+  }
+}
