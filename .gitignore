@@ -14,11 +14,14 @@
 /coverage
 
 # next.js
-# /.next/
+/.next/
+# We only want to keep the production build artifacts if we are strictly using this workflow.
+# However, .next/cache is HUGE and problematic for git (as you saw).
+# If you MUST commit the build, you should whitelist specific things and IGNORE cache.
 /out/
 
 # production
-# /build
+/build
 
 # misc
 .DS_Store

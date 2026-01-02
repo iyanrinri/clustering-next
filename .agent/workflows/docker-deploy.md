@@ -1,26 +1,21 @@
 ---
-description: Build and run the application using Docker with pre-built artifacts
+description: Build and run the application using Docker (Recommended)
 ---
 
-1. Local Build (Prerequisite)
-   Make sure you have built the application locally.
-
-   ```bash
-   npm run build
-   ```
-
-2. Docker Build & Run
-   This command will:
-
-   - Build the Docker image using your LOCAL `.next` folder and `package.json`.
-   - Install production dependencies inside the container.
-   - Start the container.
+1. Build & Run
+   The Dockerfile handles everything: installing dependencies, building the app, and serving it.
 
    ```bash
    docker compose up -d --build
    ```
 
-3. Verification
+2. View Logs
+
    ```bash
    docker compose logs -f
+   ```
+
+3. Shutdown
+   ```bash
+   docker compose down
    ```
